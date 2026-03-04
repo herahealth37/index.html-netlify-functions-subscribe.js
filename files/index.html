@@ -1,0 +1,1738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hera — Feel Like Yourself Again</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --terracotta: #C9705A;
+      --sage: #8FA990;
+      --cream: #F5F0E8;
+      --gold: #C9A85C;
+      --charcoal: #2F2F28;
+      --cream-deep: #EDE7D9;
+      --sage-light: #b5c8b8;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: var(--cream);
+      color: var(--charcoal);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.4;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.4rem 5vw;
+      background: rgba(245, 240, 232, 0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(47, 47, 40, 0.07);
+    }
+
+    .nav-logo {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 1rem;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      color: var(--terracotta);
+      text-decoration: none;
+    }
+
+    .nav-cta {
+      background: var(--charcoal);
+      color: var(--cream);
+      border: none;
+      padding: 0.65rem 1.8rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.25s, transform 0.15s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .nav-cta:hover { background: var(--terracotta); transform: translateY(-1px); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 55% 45%;
+      padding-top: 72px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: -15%;
+      right: -10%;
+      width: 65vw;
+      height: 65vw;
+      background: radial-gradient(ellipse at 60% 40%, var(--sage-light) 0%, transparent 65%),
+                  radial-gradient(ellipse at 30% 70%, var(--cream-deep) 0%, transparent 55%);
+      border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%;
+      opacity: 0.6;
+      z-index: 0;
+      animation: blobDrift 14s ease-in-out infinite alternate;
+    }
+
+    @keyframes blobDrift {
+      0%   { transform: scale(1) rotate(0deg); }
+      100% { transform: scale(1.05) rotate(4deg); }
+    }
+
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 5rem 4rem 5rem 8vw;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--terracotta);
+      margin-bottom: 1.8rem;
+      opacity: 0;
+      animation: fadeUp 0.9s ease 0.1s forwards;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 4.5vw, 5.8rem);
+      font-weight: 300;
+      line-height: 1.05;
+      color: var(--charcoal);
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.9s ease 0.25s forwards;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--terracotta);
+    }
+
+    .hero-subtitle {
+      font-size: 1rem;
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--charcoal);
+      max-width: 420px;
+      margin-bottom: 3rem;
+      opacity: 0;
+      animation: fadeUp 0.9s ease 0.4s forwards;
+    }
+
+    .hero-form {
+      display: flex;
+      gap: 0;
+      max-width: 420px;
+      opacity: 0;
+      animation: fadeUp 0.9s ease 0.55s forwards;
+    }
+
+    .hero-form input[type="email"] {
+      flex: 1;
+      padding: 0.9rem 1.2rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      border: 1.5px solid var(--charcoal);
+      border-right: none;
+      background: transparent;
+      color: var(--charcoal);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .hero-form input[type="email"]::placeholder { color: rgba(47,47,40,0.4); }
+    .hero-form input[type="email"]:focus { border-color: var(--terracotta); }
+
+    .hero-form button {
+      background: var(--terracotta);
+      color: var(--cream);
+      border: 1.5px solid var(--terracotta);
+      padding: 0.9rem 1.8rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .hero-form button:hover { background: var(--charcoal); border-color: var(--charcoal); transform: translateY(-1px); }
+
+    .hero-note {
+      margin-top: 0.9rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.05em;
+      color: rgba(47,47,40,0.45);
+      opacity: 0;
+      animation: fadeUp 0.9s ease 0.7s forwards;
+    }
+
+    .hero-right {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5rem 6vw 5rem 2rem;
+      opacity: 0;
+      animation: fadeIn 1.2s ease 0.6s forwards;
+    }
+
+    .hero-visual {
+      position: relative;
+      width: 340px;
+      height: 480px;
+    }
+
+    .hero-card {
+      position: absolute;
+      border-radius: 2px;
+      box-shadow: 0 16px 60px rgba(47,47,40,0.12);
+      overflow: hidden;
+    }
+
+    .card-main {
+      width: 280px;
+      height: 380px;
+      top: 0; left: 0;
+      background: var(--charcoal);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 2rem;
+    }
+
+    .card-main-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 0.5rem;
+    }
+
+    .card-main-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.9rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--cream);
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+    }
+
+    .card-main-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .pill {
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.75rem;
+      border: 1px solid rgba(245,240,232,0.25);
+      color: rgba(245,240,232,0.7);
+      border-radius: 999px;
+    }
+
+    .card-secondary {
+      width: 200px;
+      height: 150px;
+      bottom: 0; right: 0;
+      background: var(--terracotta);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .card-secondary-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem;
+      font-weight: 300;
+      color: var(--cream);
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+    .card-secondary-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.8);
+      line-height: 1.4;
+    }
+
+    .card-accent {
+      width: 90px;
+      height: 90px;
+      top: -20px; right: 30px;
+      background: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+    .card-accent-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.75rem;
+      font-style: italic;
+      text-align: center;
+      color: var(--cream);
+      padding: 0.5rem;
+      line-height: 1.3;
+    }
+
+    /* STATS */
+    .stats {
+      background: var(--charcoal);
+      padding: 2.5rem 8vw;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .stat-item { text-align: center; }
+
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--terracotta);
+      display: block;
+    }
+    .stat-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.55);
+      margin-top: 0.2rem;
+    }
+
+    .stat-divider {
+      width: 1px;
+      height: 50px;
+      background: rgba(245,240,232,0.12);
+    }
+
+    /* PROBLEM */
+    .problem {
+      padding: 7rem 8vw;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .section-eyebrow {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--terracotta);
+      margin-bottom: 1.4rem;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 3.5vw, 3.8rem);
+      font-weight: 300;
+      line-height: 1.15;
+      margin-bottom: 1.8rem;
+    }
+
+    .section-title em { font-style: italic; color: var(--terracotta); }
+
+    .section-body {
+      font-size: 0.95rem;
+      font-weight: 300;
+      line-height: 1.85;
+      color: rgba(47,47,40,0.78);
+    }
+
+    .problem-right {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .problem-card {
+      background: var(--cream-deep);
+      padding: 1.6rem 1.8rem;
+      border-left: 3px solid var(--terracotta);
+      transition: transform 0.2s;
+    }
+    .problem-card:hover { transform: translateX(6px); }
+
+    .problem-card-stat {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 300;
+      color: var(--terracotta);
+      font-style: italic;
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .problem-card-text {
+      font-size: 0.85rem;
+      font-weight: 300;
+      line-height: 1.6;
+      color: rgba(47,47,40,0.72);
+    }
+
+
+    /* WHY SECTION */
+    .why-section {
+      padding: 7rem 8vw;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: start;
+    }
+
+    .why-right {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      padding-top: 1rem;
+    }
+
+    .why-card {
+      background: var(--cream-deep);
+      padding: 1.8rem;
+      border-top: 2px solid var(--terracotta);
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .why-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(47,47,40,0.08); }
+
+    .why-card-icon {
+      width: 36px;
+      height: 36px;
+      color: var(--terracotta);
+      margin-bottom: 0.2rem;
+    }
+    .why-card-icon svg { width: 100%; height: 100%; }
+
+    .why-card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--charcoal);
+      line-height: 1.3;
+    }
+
+    .why-card-body {
+      font-size: 0.83rem;
+      font-weight: 300;
+      line-height: 1.7;
+      color: rgba(47,47,40,0.68);
+    }
+
+    /* APP MOCKUPS */
+    .mockups {
+      padding: 7rem 8vw;
+      background: var(--charcoal);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .mockups::before {
+      content: '';
+      position: absolute;
+      bottom: -20%;
+      right: -10%;
+      width: 50vw;
+      height: 50vw;
+      border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(143,169,144,0.12) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .mockups-header {
+      text-align: center;
+      margin-bottom: 4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .mockups-header .section-title { color: var(--cream); }
+    .mockups-header .section-title em { color: var(--terracotta); }
+
+    .mockup-screens {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      align-items: flex-start;
+      position: relative;
+      z-index: 1;
+      flex-wrap: wrap;
+    }
+
+    .mockup-phone {
+      width: 220px;
+      background: #1a1a16;
+      border-radius: 28px;
+      padding: 12px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.08);
+      flex-shrink: 0;
+      transition: transform 0.3s;
+    }
+    .mockup-phone:hover { transform: translateY(-8px); }
+    .mockup-phone.center { transform: translateY(-24px); }
+    .mockup-phone.center:hover { transform: translateY(-32px); }
+
+    .mockup-screen {
+      background: var(--cream);
+      border-radius: 20px;
+      overflow: hidden;
+      min-height: 420px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .mockup-statusbar {
+      height: 28px;
+      background: var(--charcoal);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 12px;
+    }
+    .mockup-statusbar-time {
+      font-size: 0.55rem;
+      font-weight: 500;
+      color: var(--cream);
+      letter-spacing: 0.05em;
+    }
+    .mockup-statusbar-icons {
+      display: flex;
+      gap: 3px;
+      align-items: center;
+    }
+    .mockup-statusbar-dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--cream);
+      opacity: 0.7;
+    }
+
+    .mockup-content {
+      flex: 1;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .mockup-header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2px;
+    }
+
+    .mockup-greeting {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--charcoal);
+    }
+
+    .mockup-greeting span {
+      display: block;
+      font-size: 0.6rem;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      color: rgba(47,47,40,0.5);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 1px;
+    }
+
+    .mockup-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--sage);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.6rem;
+      color: white;
+      font-weight: 500;
+    }
+
+    .mockup-cycle-bar {
+      background: var(--charcoal);
+      border-radius: 10px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .mockup-cycle-label {
+      font-size: 0.55rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 2px;
+    }
+
+    .mockup-cycle-day {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--cream);
+    }
+
+    .mockup-phase-badge {
+      font-size: 0.5rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      background: var(--terracotta);
+      color: white;
+      border-radius: 999px;
+    }
+
+    .mockup-card {
+      background: var(--cream-deep);
+      border-radius: 10px;
+      padding: 10px 12px;
+    }
+
+    .mockup-card-label {
+      font-size: 0.5rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--terracotta);
+      margin-bottom: 4px;
+    }
+
+    .mockup-card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--charcoal);
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+
+    .mockup-progress-row {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .mockup-progress-bar {
+      flex: 1;
+      height: 3px;
+      background: rgba(47,47,40,0.12);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .mockup-progress-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: var(--sage);
+    }
+
+    .mockup-progress-label {
+      font-size: 0.45rem;
+      color: rgba(47,47,40,0.5);
+      white-space: nowrap;
+    }
+
+    .mockup-mini-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+
+    .mockup-mini {
+      background: var(--cream-deep);
+      border-radius: 8px;
+      padding: 8px;
+      text-align: center;
+    }
+
+    .mockup-mini-icon {
+      font-size: 1rem;
+      margin-bottom: 3px;
+    }
+
+    .mockup-mini-label {
+      font-size: 0.45rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(47,47,40,0.5);
+      margin-bottom: 1px;
+    }
+
+    .mockup-mini-val {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--charcoal);
+    }
+
+    .mockup-list-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(47,47,40,0.07);
+    }
+    .mockup-list-item:last-child { border-bottom: none; }
+
+    .mockup-list-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .mockup-list-text {
+      font-size: 0.6rem;
+      font-weight: 300;
+      color: var(--charcoal);
+      line-height: 1.3;
+    }
+
+    .mockup-list-check {
+      margin-left: auto;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 1px solid rgba(47,47,40,0.2);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.45rem;
+    }
+    .mockup-list-check.done { background: var(--sage); border-color: var(--sage); color: white; }
+
+    .mockup-tab-bar {
+      display: flex;
+      justify-content: space-around;
+      padding: 8px 0 10px;
+      border-top: 1px solid rgba(47,47,40,0.08);
+      background: white;
+    }
+
+    .mockup-tab {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .mockup-tab-icon {
+      width: 16px;
+      height: 16px;
+      background: rgba(47,47,40,0.15);
+      border-radius: 4px;
+    }
+    .mockup-tab-icon.active { background: var(--terracotta); }
+
+    .mockup-tab-label {
+      font-size: 0.38rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(47,47,40,0.4);
+    }
+    .mockup-tab-label.active { color: var(--terracotta); }
+
+    .mockup-caption {
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.35);
+    }
+
+    .mockup-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* HOW IT WORKS */
+    .how {
+      background: var(--cream-deep);
+      padding: 7rem 8vw;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .how::before {
+      content: 'HERA';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22vw;
+      font-weight: 600;
+      color: rgba(47,47,40,0.03);
+      white-space: nowrap;
+      pointer-events: none;
+      letter-spacing: 0.2em;
+    }
+
+    .how-header {
+      text-align: center;
+      margin-bottom: 4.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .step {
+      text-align: center;
+      padding: 2.5rem 1.5rem;
+      background: var(--cream);
+      position: relative;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .step:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(47,47,40,0.1); }
+
+    .step-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 4rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--terracotta);
+      opacity: 0.35;
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+
+    .step-icon {
+      width: 44px;
+      height: 44px;
+      margin: 0 auto 1.2rem;
+      background: var(--charcoal);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .step-icon svg { width: 20px; height: 20px; stroke: var(--cream); fill: none; stroke-width: 1.5; }
+
+    .step-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 0.8rem;
+    }
+
+    .step-body {
+      font-size: 0.85rem;
+      font-weight: 300;
+      line-height: 1.7;
+      color: rgba(47,47,40,0.68);
+    }
+
+    /* DIFFERENTIATORS */
+    .diff {
+      padding: 7rem 8vw;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .diff-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+
+    .diff-item {
+      padding: 1.6rem;
+      border: 1px solid rgba(47,47,40,0.1);
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .diff-item:hover { border-color: var(--sage); background: rgba(143,169,144,0.06); }
+
+    .diff-item-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--sage);
+      border-radius: 50%;
+      margin-bottom: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .diff-item-icon svg { width: 15px; height: 15px; stroke: white; fill: none; stroke-width: 2; }
+
+    .diff-item-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+    .diff-item-body {
+      font-size: 0.8rem;
+      font-weight: 300;
+      line-height: 1.65;
+      color: rgba(47,47,40,0.65);
+    }
+
+    .diff-right {
+      position: sticky;
+      top: 120px;
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+    }
+
+    .comparison-table th {
+      padding: 0.9rem 1rem;
+      text-align: left;
+      font-weight: 500;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border-bottom: 1.5px solid var(--charcoal);
+    }
+
+    .comparison-table th:last-child {
+      background: var(--charcoal);
+      color: var(--cream);
+      text-align: center;
+    }
+
+    .comparison-table td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid rgba(47,47,40,0.08);
+      vertical-align: middle;
+      font-weight: 300;
+      color: rgba(47,47,40,0.75);
+    }
+
+    .comparison-table td:last-child {
+      text-align: center;
+      background: rgba(47,47,40,0.03);
+    }
+
+    .check {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      background: var(--sage);
+      border-radius: 50%;
+      color: white;
+      font-size: 0.65rem;
+      line-height: 18px;
+      text-align: center;
+    }
+    .cross {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      background: rgba(47,47,40,0.12);
+      border-radius: 50%;
+      color: rgba(47,47,40,0.35);
+      font-size: 0.65rem;
+      line-height: 18px;
+      text-align: center;
+    }
+
+    /* FINAL CTA */
+    .cta-section {
+      padding: 7rem 8vw;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+      background: var(--cream-deep);
+    }
+
+    .cta-form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      max-width: 380px;
+      margin-top: 2rem;
+    }
+
+    .cta-form input {
+      padding: 0.95rem 1.2rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      border: 1.5px solid rgba(47,47,40,0.25);
+      background: var(--cream);
+      color: var(--charcoal);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .cta-form input::placeholder { color: rgba(47,47,40,0.38); }
+    .cta-form input:focus { border-color: var(--terracotta); }
+
+    .cta-form button {
+      background: var(--terracotta);
+      color: var(--cream);
+      border: none;
+      padding: 1rem 2rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .cta-form button:hover { background: var(--charcoal); transform: translateY(-1px); }
+
+    .cta-note {
+      font-size: 0.72rem;
+      color: rgba(47,47,40,0.42);
+      letter-spacing: 0.04em;
+    }
+
+    .cta-right {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .benefit-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1.2rem;
+      transition: background 0.2s;
+    }
+    .benefit-row:hover { background: rgba(143,169,144,0.1); }
+
+    .benefit-dot {
+      flex-shrink: 0;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--terracotta);
+      margin-top: 0.5rem;
+    }
+
+    .benefit-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+    .benefit-body {
+      font-size: 0.82rem;
+      font-weight: 300;
+      line-height: 1.6;
+      color: rgba(47,47,40,0.65);
+    }
+
+    .cta-brand-name {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 1.6rem;
+      letter-spacing: 0.2em;
+      color: var(--terracotta);
+      margin-bottom: 1.2rem;
+    }
+    .cta-brand-block {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 2rem;
+    }
+
+
+    /* Loops form overrides */
+    .newsletter-form { display: flex; flex-direction: column; gap: 0.85rem; max-width: 420px; }
+    .newsletter-form-input, .newsletter-form input[type="text"] {
+      padding: 0.9rem 1.2rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      border: 1.5px solid rgba(47,47,40,0.25);
+      background: transparent;
+      color: var(--charcoal);
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+    .newsletter-form-input:focus, .newsletter-form input[type="text"]:focus { border-color: var(--terracotta); }
+    .newsletter-form-input::placeholder, .newsletter-form input[type="text"]::placeholder { color: rgba(47,47,40,0.4); }
+    .newsletter-form-button, .newsletter-loading-button {
+      background: var(--terracotta);
+      color: var(--cream);
+      border: none;
+      padding: 0.9rem 1.8rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      width: 100%;
+    }
+    .newsletter-form-button:hover { background: var(--charcoal); transform: translateY(-1px); }
+    .newsletter-success-message {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--sage);
+      padding: 1rem 0;
+    }
+    .newsletter-error-message { font-size: 0.82rem; color: #b91c1c; }
+    .newsletter-back-button {
+      font-size: 0.72rem;
+      color: rgba(47,47,40,0.45);
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      padding: 0;
+      letter-spacing: 0.05em;
+    }
+    .newsletter-form-container { width: 100%; max-width: 420px; }
+    .cta-form .newsletter-form { max-width: 380px; }
+
+    /* SUCCESS STATE */
+    .success-msg {
+      display: none;
+      padding: 1rem 1.2rem;
+      background: rgba(143,169,144,0.18);
+      border-left: 3px solid var(--sage);
+      font-size: 0.85rem;
+      color: var(--charcoal);
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--charcoal);
+      padding: 2.5rem 8vw;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-logo {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 0.85rem;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      color: var(--terracotta);
+    }
+
+    .footer-tagline {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.35);
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 6vw; }
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-left { padding: 4rem 6vw 3rem; }
+      .hero-right { display: none; }
+      .why-section, .diff, .cta-section { grid-template-columns: 1fr; gap: 3rem; }
+      .steps { grid-template-columns: 1fr; }
+      .stats { justify-content: center; }
+      .stat-divider { display: none; }
+      .diff-right { position: static; }
+      .diff-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <a href="#" class="nav-logo">Hera</a>
+    <a href="#early-access" class="nav-cta">Get Early Access</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <p class="hero-eyebrow">Women's Health — Reimagined</p>
+      <h1 class="hero-title">
+        Feel like<br/><em>yourself</em><br/>again.
+      </h1>
+      <p class="hero-subtitle">
+        Personalised hormone and energy guidance that tells you exactly what to eat, how to train, and how to live — every day, through every phase of womanhood.
+      </p>
+      <div class="newsletter-form-container">
+        <form class="newsletter-form" action="https://app.loops.so/api/newsletter-form/cmm2b8ovj0aii0i0fwt3va27g" method="POST" data-netlify="false">
+          <input class="newsletter-form-input" placeholder="Your email address" required type="email" name="newsletter-form-input" />
+          <button type="submit" class="newsletter-form-button">Join Waitlist</button>
+          <button type="button" class="newsletter-loading-button" style="display:none;">Please wait...</button>
+        </form>
+        <div class="newsletter-success" style="display:none;"><p class="newsletter-success-message">You're on the list — we'll be in touch soon. ✦</p></div>
+        <div class="newsletter-error" style="display:none;"><p class="newsletter-error-message">Oops! Something went wrong, please try again</p></div>
+        <button class="newsletter-back-button" type="button" style="display:none;">← Back</button>
+      </div>
+      <p class="hero-note">No spam. Early access only. Free to join.</p>
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-visual">
+        <div class="hero-card card-accent">
+          <p class="card-accent-text">Built for<br/><em>her</em><br/>body</p>
+        </div>
+        <div class="hero-card card-main">
+          <p class="card-main-label">Today's focus</p>
+          <p class="card-main-heading">Balance your cortisol, restore your energy</p>
+          <div class="card-main-pills">
+            <span class="pill">Nutrition</span>
+            <span class="pill">Training</span>
+            <span class="pill">Sleep</span>
+            <span class="pill">Cycle Day 14</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats reveal">
+    <div class="stat-item">
+      <span class="stat-num">7–10</span>
+      <p class="stat-label">Years to diagnose endometriosis</p>
+    </div>
+
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-num">80%</span>
+      <p class="stat-label">Of women report feeling dismissed by doctors</p>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-num">1 in 3</span>
+      <p class="stat-label">Women experience hormonal imbalance</p>
+    </div>
+  </div>
+
+  <!-- WHY SECTION -->
+  <section class="why-section">
+    <div class="why-left reveal">
+      <p class="section-eyebrow">Why Hera Exists</p>
+      <h2 class="section-title">Because women deserve <em>better</em> than generic.</h2>
+      <p class="section-body">
+        Hera was created out of frustration — with a healthcare system that has spent decades studying male bodies, and a wellness industry that offers one-size-fits-all advice that simply doesn't work for women.<br/><br/>
+        Women's bodies are cyclical. Hormones shift daily. Energy, mood, metabolism, and sleep are all connected — and they change depending on where you are in your cycle, your life stage, and what's happening in your body right now.<br/><br/>
+        Hera was built to change that. To give every woman personalised, evidence-based guidance that meets her exactly where she is — and tells her what to actually do.
+      </p>
+    </div>
+    <div class="why-right reveal">
+      <div class="why-card">
+        <div class="why-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3 class="why-card-title">Root cause, not symptom management</h3>
+        <p class="why-card-body">Rather than masking how you feel, Hera goes deeper — addressing hormones, blood sugar, cortisol, sleep, and nutrition as one connected system.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <h3 class="why-card-title">Built around your cycle, not against it</h3>
+        <p class="why-card-body">Your needs change every day of your cycle. Hera's guidance adapts in real time — so what you eat, how you train, and how you rest works with your body, not against it.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </div>
+        <h3 class="why-card-title">With you through every phase of life</h3>
+        <p class="why-card-body">From menstruation to fertility, postpartum to perimenopause — Hera grows with you. Because hormonal health doesn't stop, and neither should your support.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how">
+    <div class="how-header reveal">
+      <p class="section-eyebrow">How It Works</p>
+      <h2 class="section-title">Not just tracking. <em>Action.</em></h2>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-num">01</div>
+        <div class="step-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <h3 class="step-title">Tell us about you</h3>
+        <p class="step-body">Share your symptoms, cycle patterns, energy levels, health history, and goals. Hera builds a picture of your hormonal health — not a generic one.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">02</div>
+        <div class="step-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <h3 class="step-title">Get your daily plan</h3>
+        <p class="step-body">Each morning, Hera tells you exactly what to eat, how to move, and how to support your hormones — tailored to where you are in your cycle that day.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">03</div>
+        <div class="step-icon">
+          <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <h3 class="step-title">Feel the difference</h3>
+        <p class="step-body">As Hera learns your patterns, your guidance gets smarter. More energy, better sleep, clearer cycles — from root cause, not symptom management.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- APP MOCKUPS -->
+  <section class="mockups">
+    <div class="mockups-header reveal">
+      <p class="section-eyebrow" style="color:var(--sage);">A Glimpse Inside</p>
+      <h2 class="section-title">Your daily guide, <em>personalised</em> to you.</h2>
+    </div>
+    <div class="mockup-screens reveal">
+
+      <!-- Screen 1: Daily Overview -->
+      <div class="mockup-wrap">
+        <div class="mockup-phone">
+          <div class="mockup-screen">
+            <div class="mockup-statusbar">
+              <span class="mockup-statusbar-time">9:41</span>
+              <div class="mockup-statusbar-icons">
+                <div class="mockup-statusbar-dot"></div>
+                <div class="mockup-statusbar-dot"></div>
+                <div class="mockup-statusbar-dot"></div>
+              </div>
+            </div>
+            <div class="mockup-content">
+              <div class="mockup-header-bar">
+                <div class="mockup-greeting">
+                  <span>Good morning</span>
+                  Sarah
+                </div>
+                <div class="mockup-avatar">S</div>
+              </div>
+              <div class="mockup-cycle-bar">
+                <div>
+                  <p class="mockup-cycle-label">Today</p>
+                  <p class="mockup-cycle-day">Cycle Day 14</p>
+                </div>
+                <span class="mockup-phase-badge">Ovulatory</span>
+              </div>
+              <div class="mockup-card">
+                <p class="mockup-card-label">Today's Focus</p>
+                <p class="mockup-card-title">Peak energy — lean into it</p>
+                <div class="mockup-progress-row">
+                  <div class="mockup-progress-bar"><div class="mockup-progress-fill" style="width:72%"></div></div>
+                  <span class="mockup-progress-label">72% complete</span>
+                </div>
+              </div>
+              <div class="mockup-mini-cards">
+                <div class="mockup-mini">
+                  <div class="mockup-mini-icon">🥗</div>
+                  <p class="mockup-mini-label">Nutrition</p>
+                  <p class="mockup-mini-val">On track</p>
+                </div>
+                <div class="mockup-mini">
+                  <div class="mockup-mini-icon">💧</div>
+                  <p class="mockup-mini-label">Hydration</p>
+                  <p class="mockup-mini-val">1.8L</p>
+                </div>
+              </div>
+            </div>
+            <div class="mockup-tab-bar">
+              <div class="mockup-tab"><div class="mockup-tab-icon active"></div><span class="mockup-tab-label active">Home</span></div>
+              <div class="mockup-tab"><div class="mockup-tab-icon"></div><span class="mockup-tab-label">Plan</span></div>
+              <div class="mockup-tab"><div class="mockup-tab-icon"></div><span class="mockup-tab-label">Track</span></div>
+              <div class="mockup-tab"><div class="mockup-tab-icon"></div><span class="mockup-tab-label">Learn</span></div>
+            </div>
+          </div>
+        </div>
+        <p class="mockup-caption">Daily Overview</p>
+      </div>
+
+      <!-- Screen 2: Nutrition Plan (centre, elevated) -->
+      <div class="mockup-wrap">
+        <div class="mockup-phone center">
+          <div class="mockup-screen">
+            <div class="mockup-statusbar">
+              <span class="mockup-statusbar-time">9:41</span>
+              <div class="mockup-statusbar-icons">
+                <div class="mockup-statusbar-dot"></div>
+                <div class="mockup-statusbar-dot"></div>
+                <div class="mockup-statusbar-dot"></div>
+              </div>
+            </div>
+            <div class="mockup-content">
+              <p class="mockup-card-label" style="font-size:0.6rem;">Today's Nutrition Plan</p>
+              <div class="mockup-cycle-bar" style="margin-bottom:2px;">
+                <div>
+                  <p class="mockup-cycle-label">Phase guidance</p>
+                  <p class="mockup-cycle-day">High protein, anti-inflammatory</p>
+                </div>
+              </div>
+              <div class="mockup-list-item">
+                <div class="mockup-list-dot" style="background:var(--gold)"></div>
+                <div class="mockup-list-text"><strong>Breakfast</strong><br/>Smoked salmon &amp; avocado on rye with soft-boiled egg</div>
+                <div class="mockup-list-check done">✓</div>
+              </div>
+              <div class="mockup-list-item">
+                <div class="mockup-list-dot" style="background:var(--sage)"></div>
+                <div class="mockup-list-text"><strong>Lunch</strong><br/>Grilled chicken, quinoa, roasted veg &amp; tahini dressing</div>
+                <div class="mockup-list-check done">✓</div>
+              </div>
+              <div class="mockup-list-item">
+                <div class="mockup-list-dot" style="background:var(--terracotta)"></div>
+                <div class="mockup-list-text"><strong>Dinner</strong><br/>Salmon with broccoli, sweet potato &amp; lemon zest</div>
+                <div class="mockup-list-check"></div>
+              </div>
+              <div class="mockup-list-item">
+                <div class="mockup-list-dot" style="background:rgba(47,47,40,0.3)"></div>
+                <div class="mockup-list-text"><strong>Snack</strong><br/>Handful of walnuts &amp; dark chocolate</div>
+                <div class="mockup-list-check"></div>
+              </div>
+              <div class="mockup-card" style="margin-top:4px;">
+                <p class="mockup-card-label">Why this works today</p>
+                <p style="font-size:0.55rem;color:rgba(47,47,40,0.65);line-height:1.5;">Oestrogen peaks at ovulation — supporting it with omega-3s and cruciferous vegetables helps your body process it efficiently.</p>
+              </div>
+            </div>
+            <div class="mockup-tab-bar">
+              <div class="mockup-tab"><div class="mockup-tab-icon"></div><span class="mockup-tab-label">Home</span></div>
+              <div class="mockup-tab"><div class="mockup-tab-icon active"></div><span class="mockup-tab-label active">Plan</span></div>
+              <div class="mockup-tab"><div class="mockup-tab-icon"></div><span class="mockup-tab-label">Track</span></div>
+              <div class="mockup-tab"><div class="mockup-tab-icon"></div><span class="mockup-tab-label">Learn</span></div>
+            </div>
+          </div>
+        </div>
+        <p class="mockup-caption">Nutrition Plan</p>
+      </div>
+
+      <!-- Screen 3: Energy & Symptoms -->
+      <div class="mockup-wrap">
+        <div class="mockup-phone">
+          <div class="mockup-screen">
+            <div class="mockup-statusbar">
+              <span class="mockup-statusbar-time">9:41</span>
+              <div class="mockup-statusbar-icons">
+                <div class="mockup-statusbar-dot"></div>
+                <div class="mockup-statusbar-dot"></div>
+                <div class="mockup-statusbar-dot"></div>
+              </div>
+            </div>
+            <div class="mockup-content">
+              <p class="mockup-card-label" style="font-size:0.6rem;">Movement & Recovery</p>
+              <div class="mockup-card">
+                <p class="mockup-card-label">Today's recommendation</p>
+                <p class="mockup-card-title">Strength training — your body is primed</p>
+                <p style="font-size:0.55rem;color:rgba(47,47,40,0.6);line-height:1.5;margin-top:4px;">Testosterone and oestrogen are both elevated today. This is your strongest week — push harder in the gym.</p>
+              </div>
+              <div class="mockup-mini-cards">
+                <div class="mockup-mini">
+                  <div class="mockup-mini-icon">🏋️</div>
+                  <p class="mockup-mini-label">Intensity</p>
+                  <p class="mockup-mini-val">High</p>
+                </div>
+                <div class="mockup-mini">
+                  <div class="mockup-mini-icon">😴</div>
+                  <p class="mockup-mini-label">Recovery</p>
+                  <p class="mockup-mini-val">Good</p>
+                </div>
+              </div>
+              <div class="mockup-card">
+                <p class="mockup-card-label">How are you feeling?</p>
+                <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;">
+                  <span style="font-size:0.48rem;padding:3px 8px;background:var(--sage);color:white;border-radius:999px;">Energised</span>
+                  <span style="font-size:0.48rem;padding:3px 8px;border:1px solid rgba(47,47,40,0.2);color:rgba(47,47,40,0.5);border-radius:999px;">Bloated</span>
+                  <span style="font-size:0.48rem;padding:3px 8px;border:1px solid rgba(47,47,40,0.2);color:rgba(47,47,40,0.5);border-radius:999px;">Brain fog</span>
+                  <span style="font-size:0.48rem;padding:3px 8px;border:1px solid rgba(47,47,40,0.2);color:rgba(47,47,40,0.5);border-radius:999px;">Tired</span>
+                </div>
+              </div>
+            </div>
+            <div class="mockup-tab-bar">
+              <div class="mockup-tab"><div class="mockup-tab-icon"></div><span class="mockup-tab-label">Home</span></div>
+              <div class="mockup-tab"><div class="mockup-tab-icon"></div><span class="mockup-tab-label">Plan</span></div>
+              <div class="mockup-tab"><div class="mockup-tab-icon active"></div><span class="mockup-tab-label active">Track</span></div>
+              <div class="mockup-tab"><div class="mockup-tab-icon"></div><span class="mockup-tab-label">Learn</span></div>
+            </div>
+          </div>
+        </div>
+        <p class="mockup-caption">Movement & Recovery</p>
+      </div>
+
+    </div>
+  </section>
+  <!-- DIFFERENTIATORS -->
+  <section class="diff">
+    <div class="diff-left reveal">
+      <p class="section-eyebrow">Why Hera</p>
+      <h2 class="section-title">Built on <em>root cause</em> science.</h2>
+      <p class="section-body">Most health apps track data. Hera tells you what to do with it — grounded in nutritional naturopathy, hormonal health research, and the understanding that your body changes every single day.</p>
+      <div class="diff-grid">
+        <div class="diff-item">
+          <div class="diff-item-icon">
+            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </div>
+          <h4 class="diff-item-title">Holistic approach</h4>
+          <p class="diff-item-body">Hormones, blood sugar, sleep, stress, and nutrition — addressed together, not in silos.</p>
+        </div>
+        <div class="diff-item">
+          <div class="diff-item-icon">
+            <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <h4 class="diff-item-title">Cycle-aware</h4>
+          <p class="diff-item-body">Guidance changes daily with your cycle phase — because your body isn't the same every day.</p>
+        </div>
+        <div class="diff-item">
+          <div class="diff-item-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <h4 class="diff-item-title">Evidence-based</h4>
+          <p class="diff-item-body">Naturopathic principles backed by clinical research — no pseudoscience, no overwhelm.</p>
+        </div>
+        <div class="diff-item">
+          <div class="diff-item-icon">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h4 class="diff-item-title">All life phases</h4>
+          <p class="diff-item-body">Menstruation, fertility, postpartum, perimenopause, menopause — Hera stays with you.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="diff-right reveal">
+      <p class="section-eyebrow" style="margin-bottom:1.2rem;">Hera vs the rest</p>
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Others</th>
+            <th>Hera</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Daily actionable plan</td><td><span class="cross">✕</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td>Cycle-synced nutrition</td><td><span class="cross">✕</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td>Root cause focus</td><td><span class="cross">✕</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td>Adapts as you change</td><td><span class="cross">✕</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td>Covers all life phases</td><td><span class="cross">✕</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td>Holistic (sleep, stress, nutrition)</td><td><span class="cross">✕</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td>Built for women's bodies</td><td><span class="cross">✕</span></td><td><span class="check">✓</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="cta-section" id="early-access">
+    <div class="cta-left reveal">
+      <p class="section-eyebrow">Early Access</p>
+      <h2 class="section-title">Be the first to <em>feel it.</em></h2>
+      <p class="section-body">Hera is in development. Join the waitlist now for early access and for exclusive pre-launch content straight to your inbox.</p>
+      <div class="newsletter-form-container">
+        <form class="newsletter-form" action="https://app.loops.so/api/newsletter-form/cmm2b8ovj0aii0i0fwt3va27g" method="POST" data-netlify="false">
+          <input type="text" name="firstName" placeholder="First name" />
+          <input class="newsletter-form-input" placeholder="Email address" required type="email" name="newsletter-form-input" />
+          <button type="submit" class="newsletter-form-button">Request Early Access →</button>
+          <button type="button" class="newsletter-loading-button" style="display:none;">Please wait...</button>
+          <p class="cta-note">No spam. Unsubscribe anytime.</p>
+        </form>
+        <div class="newsletter-success" style="display:none;"><p class="newsletter-success-message">You're in. We'll be in touch as soon as Hera is ready.</p></div>
+        <div class="newsletter-error" style="display:none;"><p class="newsletter-error-message">Oops! Something went wrong, please try again</p></div>
+        <button class="newsletter-back-button" type="button" style="display:none;">← Back</button>
+      </div>
+    </div>
+    <div class="cta-right reveal">
+      <div class="cta-brand-block">
+        <p class="cta-brand-name">Hera</p>
+        <p style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;font-style:italic;color:var(--charcoal);line-height:1.5;max-width:340px;">"Your hormones, your energy, your body — finally working for you."</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p class="footer-logo">Hera</p>
+    <p class="footer-tagline">© 2025 Hera Health. All rights reserved. v2</p>
+  </footer>
+
+  <script>
+function submitHandler(event) {
+  event.preventDefault();
+  var container = event.target.parentNode;
+  var form = container.querySelector(".newsletter-form");
+  var formInput = container.querySelector(".newsletter-form-input");
+  var success = container.querySelector(".newsletter-success");
+  var errorContainer = container.querySelector(".newsletter-error");
+  var errorMessage = container.querySelector(".newsletter-error-message");
+  var backButton = container.querySelector(".newsletter-back-button");
+  var submitButton = container.querySelector(".newsletter-form-button");
+  var loadingButton = container.querySelector(".newsletter-loading-button");
+
+  const rateLimit = () => {
+    errorContainer.style.display = "flex";
+    errorMessage.innerText = "Too many signups, please try again in a little while";
+    submitButton.style.display = "none";
+    formInput.style.display = "none";
+    backButton.style.display = "block";
+  }
+
+  var time = new Date();
+  var timestamp = time.valueOf();
+  var previousTimestamp = localStorage.getItem("loops-form-timestamp");
+  if (previousTimestamp && Number(previousTimestamp) + 60000 > timestamp) {
+    rateLimit();
+    return;
+  }
+  localStorage.setItem("loops-form-timestamp", timestamp);
+
+  submitButton.style.display = "none";
+  loadingButton.style.display = "flex";
+
+  var formBody = "userGroup=&mailingLists=&email=" + encodeURIComponent(formInput.value);
+
+  fetch("/.netlify/functions/subscribe", {
+    method: "POST",
+    body: formBody,
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+  })
+    .then((res) => [res.ok, res.json(), res])
+    .then(([ok, dataPromise, res]) => {
+      if (ok) {
+        success.style.display = "flex";
+        form.style.display = "none";
+        backButton.style.display = "block";
+        form.reset();
+      } else {
+        dataPromise.then(data => {
+          errorContainer.style.display = "flex";
+          errorMessage.innerText = data.message ? data.message : res.statusText;
+          submitButton.style.display = "none";
+          backButton.style.display = "block";
+        });
+      }
+    })
+    .catch(error => {
+      if (error.message === "Failed to fetch") { rateLimit(); return; }
+      errorContainer.style.display = "flex";
+      if (error.message) errorMessage.innerText = error.message;
+      localStorage.setItem("loops-form-timestamp", '');
+    })
+    .finally(() => {
+      loadingButton.style.display = "none";
+    });
+}
+
+function resetFormHandler(event) {
+  var container = event.target.parentNode;
+  var form = container.querySelector(".newsletter-form");
+  var formInput = container.querySelector(".newsletter-form-input");
+  var success = container.querySelector(".newsletter-success");
+  var errorContainer = container.querySelector(".newsletter-error");
+  var errorMessage = container.querySelector(".newsletter-error-message");
+  var backButton = container.querySelector(".newsletter-back-button");
+  var submitButton = container.querySelector(".newsletter-form-button");
+
+  success.style.display = "none";
+  errorContainer.style.display = "none";
+  errorMessage.innerText = "Oops! Something went wrong, please try again";
+  backButton.style.display = "none";
+  form.style.display = "flex";
+  formInput.style.display = "flex";
+  submitButton.style.display = "flex";
+}
+
+var formContainers = document.getElementsByClassName("newsletter-form-container");
+for (var i = 0; i < formContainers.length; i++) {
+  var formContainer = formContainers[i];
+  var handlersAdded = formContainer.classList.contains('newsletter-handlers-added');
+  if (handlersAdded) continue;
+  formContainer.querySelector(".newsletter-form").addEventListener("submit", submitHandler);
+  formContainer.querySelector(".newsletter-back-button").addEventListener("click", resetFormHandler);
+  formContainer.classList.add("newsletter-handlers-added");
+}
+</script>
+
+</body>
+</html>
